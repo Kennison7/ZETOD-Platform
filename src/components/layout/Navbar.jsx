@@ -1,9 +1,9 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { Menu, X } from 'lucide-react'
 import Logo from '../ui/Logo'
 import Button from '../ui/Button'
 import Container from '../ui/Container'
-import { ASSESSMENT_URL } from '../../config/api'
 
 const navLinks = [
   { label: 'Features', href: '#features' },
@@ -19,9 +19,9 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 border-b border-white/5 bg-background/80 backdrop-blur-md">
       <Container>
         <nav className="flex items-center justify-between h-16 lg:h-18">
-          <a href="#" className="shrink-0">
+          <Link to="/" className="shrink-0">
             <Logo />
-          </a>
+          </Link>
 
           <div className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
@@ -36,14 +36,14 @@ export default function Navbar() {
           </div>
 
           <div className="hidden md:flex items-center gap-4">
-            <a
-              href="#"
+            <Link
+              to="/login"
               className="text-sm text-muted hover:text-text transition-colors duration-200"
             >
               Login
-            </a>
-            <Button href={ASSESSMENT_URL} size="sm">
-              Commencer l&apos;évaluation
+            </Link>
+            <Button to="/login" size="sm">
+              Start Assessment
             </Button>
           </div>
 
@@ -70,15 +70,15 @@ export default function Navbar() {
                   {link.label}
                 </a>
               ))}
-              <a
-                href="#"
+              <Link
+                to="/login"
                 onClick={handleLinkClick}
                 className="text-muted hover:text-text transition-colors py-2"
               >
                 Login
-              </a>
-              <Button href={ASSESSMENT_URL} onClick={handleLinkClick} className="w-full">
-                Commencer l&apos;évaluation
+              </Link>
+              <Button to="/login" onClick={handleLinkClick} className="w-full">
+                Start Assessment
               </Button>
             </div>
           </div>

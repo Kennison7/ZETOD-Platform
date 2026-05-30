@@ -1,22 +1,39 @@
 # ZeToD Frontend
 
-Landing page React pour la plateforme **ZeToD** (Zero To Deploy) — évaluation des compétences Python réelles.
+Production-ready landing page and auth flow for **ZeToD** (Zero To Deploy) — an open-source platform that evaluates real Python developer skills.
 
 ## Stack
 
-- React + Vite
+- React + Vite (JavaScript)
 - Tailwind CSS v4
 - React Router DOM
+- Axios
 - Lucide React
 
-## Démarrage local
+## Project structure
+
+```
+src/
+├── components/
+│   ├── auth/          LoginForm, RegisterForm
+│   ├── layout/        Navbar, Footer
+│   ├── sections/      Hero, Stats, Features, HowItWorks, Testimonials, FAQ
+│   └── ui/            Button, Card, Container, SectionTitle, Logo
+├── pages/             Home, Login, Register
+├── router/            AppRouter.jsx
+├── services/          api.js (Axios + backend)
+├── data/              Static content
+└── hooks/             useInView
+```
+
+## Local development
 
 ```bash
 npm install
 npm run dev
 ```
 
-Sur Windows PowerShell, si `npm` est bloqué :
+Windows PowerShell (if `npm` is blocked):
 
 ```powershell
 npm.cmd run dev
@@ -24,29 +41,38 @@ npm.cmd run dev
 
 ## Backend
 
-L'URL du backend est configurée via la variable d'environnement :
+Set the API URL in `.env`:
 
 ```env
 VITE_API_URL=https://zetod-backend.onrender.com
 ```
 
-Copiez `.env.example` vers `.env` avant le développement local.
+Axios is configured in `src/services/api.js` with:
 
-Le bouton **Commencer l'évaluation** redirige vers `{VITE_API_URL}/assessment`.
+- Health check: `GET /`
+- Login: `POST /api/auth/login`
+- Register: `POST /api/auth/register`
+- JWT token stored in `localStorage` as `zetod_token`
 
-## Déploiement Vercel
+**Start Assessment** routes users to `/login` first, then connects to backend authentication.
 
-1. Connectez-vous sur [vercel.com](https://vercel.com) avec GitHub.
-2. Importez le dépôt `ZETOD-Platform`.
-3. **Root Directory** : `frontend` (monorepo) ou `.` (si ce dossier est le dépôt frontend seul).
-4. **Framework Preset** : Vite
-5. **Build Command** : `npm run build`
-6. **Output Directory** : `dist`
-7. Ajoutez la variable d'environnement :
-   - `VITE_API_URL` = `https://zetod-backend.onrender.com`
-8. Déployez.
+## Routes
 
-## Git (soumission)
+| Path        | Page     |
+|-------------|----------|
+| `/`         | Landing  |
+| `/login`    | Sign in  |
+| `/register` | Sign up  |
+
+## Deploy (Vercel)
+
+1. Import the repo on [vercel.com](https://vercel.com)
+2. Root directory: `frontend` (monorepo) or `.` (standalone)
+3. Framework: **Vite**
+4. Build: `npm run build` → Output: `dist`
+5. Env var: `VITE_API_URL=https://zetod-backend.onrender.com`
+
+## Git
 
 ```bash
 git add .

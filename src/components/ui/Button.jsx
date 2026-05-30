@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 const variants = {
   primary:
     'bg-accent text-background font-semibold shadow-[0_0_20px_rgba(255,139,0,0.3)] hover:shadow-[0_0_30px_rgba(255,139,0,0.5)] hover:scale-[1.02]',
@@ -12,11 +14,16 @@ const sizes = {
   lg: 'px-8 py-3 text-base',
 }
 
+function isInternalRoute(href) {
+  return href.startsWith('/') && !href.startsWith('//')
+}
+
 export default function Button({
   children,
   variant = 'primary',
   size = 'md',
   href,
+  to,
   onClick,
   className = '',
   type = 'button',
@@ -24,6 +31,16 @@ export default function Button({
   rel,
 }) {
   const classes = `inline-flex items-center justify-center rounded-lg transition-all duration-300 cursor-pointer ${variants[variant]} ${sizes[size]} ${className}`
+
+  const route = to || href
+
+  if (route && isInternalRoute(route)) {
+    return (
+      <Link to={route} className={classes} onClick={onClick}>
+        {children}
+      </Link>
+    )
+  }
 
   if (href) {
     const isExternal = href.startsWith('http')

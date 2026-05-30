@@ -1,8 +1,6 @@
 import Button from '../ui/Button'
 import Container from '../ui/Container'
-import BackendStatus from '../ui/BackendStatus'
 import HeroDashboard from './HeroDashboard'
-import { ASSESSMENT_URL } from '../../config/api'
 
 export default function HeroSection() {
   return (
@@ -21,19 +19,17 @@ export default function HeroSection() {
               <span className="text-primary">Python Skill Level</span>
             </h1>
             <p className="text-muted text-base lg:text-lg leading-relaxed mb-8 max-w-lg">
-              ZeToD évalue vos compétences Python réelles — précision, vitesse et
-              résolution de problèmes — selon les standards de l&apos;ingénierie
-              logicielle, pas les certificats.
+              ZeToD evaluates your precision, speed, and problem-solving ability
+              against real-world engineering standards.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button href={ASSESSMENT_URL} size="lg">
-                Commencer l&apos;évaluation
+              <Button to="/login" size="lg">
+                Start Assessment
               </Button>
               <Button href="#features" variant="secondary" size="lg">
-                En savoir plus
+                Learn More
               </Button>
             </div>
-            <BackendStatus />
           </div>
 
           <div className="lg:pl-4">

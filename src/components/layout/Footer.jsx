@@ -1,10 +1,11 @@
+import { Link } from 'react-router-dom'
 import Logo from '../ui/Logo'
 import Container from '../ui/Container'
 
 const footerLinks = [
   { label: 'Features', href: '#features' },
   { label: 'FAQ', href: '#faq' },
-  { label: 'Login', href: '#' },
+  { label: 'Login', to: '/login' },
 ]
 
 export default function Footer() {
@@ -25,12 +26,21 @@ export default function Footer() {
             <ul className="space-y-3">
               {footerLinks.map((link) => (
                 <li key={link.label}>
-                  <a
-                    href={link.href}
-                    className="text-sm text-muted hover:text-text transition-colors duration-200"
-                  >
-                    {link.label}
-                  </a>
+                  {link.to ? (
+                    <Link
+                      to={link.to}
+                      className="text-sm text-muted hover:text-text transition-colors duration-200"
+                    >
+                      {link.label}
+                    </Link>
+                  ) : (
+                    <a
+                      href={link.href}
+                      className="text-sm text-muted hover:text-text transition-colors duration-200"
+                    >
+                      {link.label}
+                    </a>
+                  )}
                 </li>
               ))}
             </ul>
