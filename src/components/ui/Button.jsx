@@ -29,8 +29,13 @@ export default function Button({
   type = 'button',
   target,
   rel,
+  disabled = false,
 }) {
-  const classes = `inline-flex items-center justify-center rounded-lg transition-all duration-300 cursor-pointer ${variants[variant]} ${sizes[size]} ${className}`
+  const disabledClasses = disabled
+    ? 'opacity-50 cursor-not-allowed pointer-events-none hover:scale-100 hover:shadow-none'
+    : ''
+
+  const classes = `inline-flex items-center justify-center rounded-lg transition-all duration-300 cursor-pointer ${variants[variant]} ${sizes[size]} ${disabledClasses} ${className}`
 
   const route = to || href
 
@@ -58,7 +63,7 @@ export default function Button({
   }
 
   return (
-    <button type={type} className={classes} onClick={onClick}>
+    <button type={type} className={classes} onClick={onClick} disabled={disabled}>
       {children}
     </button>
   )

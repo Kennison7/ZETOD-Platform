@@ -1,85 +1,122 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Button from '../ui/Button'
-import { loginUser } from '../../services/api'
+import AuthInput from './AuthInput'
+import Spinner from './Spinner'
+import ColdStartNotice from './ColdStartNotice'
+import { loginUser } from '../../services/authService'
+import { setToken } from '../../utils/auth'
+import { getApiErrorMessage } from '../../utils/errors'
+import useColdStartHint from '../../hooks/useColdStartHint'
+
+function extractToken(data) {
+  return data?.token || data?.access_token || null
+}
 
 export default function LoginForm() {
   const navigate = useNavigate()
   const [form, setForm] = useState({ email: '', password: '' })
+  const [fieldErrors, setFieldErrors] = useState({})
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const showColdStart = useColdStartHint(loading)
 
   const handleChange = (e) => {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+    const { name, value } = e.target
+    setForm((prev) => ({ ...prev, [name]: value }))
     setError('')
+    setFieldErrors((prev) => ({ ...prev, [name]: '' }))
+  }
+
+  const validate = () => {
+    const errors = {}
+
+    if (!form.email.trim()) {
+      errors.email = 'Email is required.'
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+      errors.email = 'Enter a valid email address.'
+    }
+
+    if (!form.password) {
+      errors.password = 'Password is required.'
+    } else if (form.password.length < 6) {
+      errors.password = 'Password must be at least 6 characters.'
+    }
+
+    setFieldErrors(errors)
+    return Object.keys(errors).length === 0
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    if (!validate()) return
+
     setLoading(true)
     setError('')
 
     try {
-      const data = await loginUser(form)
-      if (data.token) {
-        localStorage.setItem('zetod_token', data.token)
+      const data = await loginUser({
+        email: form.email.trim(),
+        password: form.password,
+      })
+
+      const token = extractToken(data)
+      if (token) {
+        setToken(token)
       }
-      navigate('/')
+
+      navigate('/dashboard')
     } catch (err) {
-      const message =
-        err.response?.data?.detail ||
-        err.response?.data?.message ||
-        'Unable to sign in. Please check your credentials or try again later.'
-      setError(typeof message === 'string' ? message : 'Unable to sign in.')
+      setError(
+        getApiErrorMessage(err, 'Unable to sign in. Please check your credentials and try again.')
+      )
     } finally {
       setLoading(false)
     }
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
+    <form onSubmit={handleSubmit} className="space-y-5" noValidate>
       {error && (
-        <div className="rounded-lg border border-accent/30 bg-accent/10 px-4 py-3 text-sm text-accent">
+        <div
+          role="alert"
+          className="rounded-lg border border-accent/30 bg-accent/10 px-4 py-3 text-sm text-accent"
+        >
           {error}
         </div>
       )}
 
-      <div>
-        <label htmlFor="email" className="block text-sm font-medium text-text mb-2">
-          Email
-        </label>
-        <input
-          id="email"
-          name="email"
-          type="email"
-          required
-          autoComplete="email"
-          value={form.email}
-          onChange={handleChange}
-          className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-2.5 text-text text-sm placeholder:text-muted/60 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/30 transition-colors"
-          placeholder="you@example.com"
-        />
-      </div>
+      <ColdStartNotice visible={showColdStart} />
 
-      <div>
-        <label htmlFor="password" className="block text-sm font-medium text-text mb-2">
-          Password
-        </label>
-        <input
-          id="password"
-          name="password"
-          type="password"
-          required
-          autoComplete="current-password"
-          value={form.password}
-          onChange={handleChange}
-          className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-2.5 text-text text-sm placeholder:text-muted/60 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/30 transition-colors"
-          placeholder="••••••••"
-        />
-      </div>
+      <AuthInput
+        id="email"
+        name="email"
+        label="Email"
+        type="email"
+        autoComplete="email"
+        value={form.email}
+        onChange={handleChange}
+        placeholder="you@example.com"
+        error={fieldErrors.email}
+        disabled={loading}
+      />
 
-      <Button type="submit" className="w-full" size="lg">
-        {loading ? 'Signing in…' : 'Start Assessment'}
+      <AuthInput
+        id="password"
+        name="password"
+        label="Password"
+        type="password"
+        autoComplete="current-password"
+        value={form.password}
+        onChange={handleChange}
+        placeholder="••••••••"
+        error={fieldErrors.password}
+        disabled={loading}
+      />
+
+      <Button type="submit" className="w-full gap-2" size="lg" disabled={loading}>
+        {loading && <Spinner />}
+        {loading ? 'Signing in…' : 'Sign in'}
       </Button>
     </form>
   )

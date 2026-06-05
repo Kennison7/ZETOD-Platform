@@ -1,18 +1,16 @@
 import axios from 'axios'
-
-export const API_BASE_URL =
-  import.meta.env.VITE_API_URL || 'https://zetod-backend.onrender.com'
+import { getToken } from '../utils/auth'
 
 const api = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: import.meta.env.VITE_API_URL,
   headers: {
     'Content-Type': 'application/json',
   },
-  timeout: 15000,
+  timeout: 60000,
 })
 
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('zetod_token')
+  const token = getToken()
   if (token) {
     config.headers.Authorization = `Bearer ${token}`
   }
@@ -21,24 +19,35 @@ api.interceptors.request.use((config) => {
 
 export async function checkBackendHealth() {
   try {
-    const response = await api.get('/')
-    return { connected: true, status: response.status }
+    const response = await api.get('/health')
+    const message =
+      typeof response.data === 'string'
+        ? response.data
+        : response.data?.status || response.data?.message || 'OK'
+
+    return {
+      connected: true,
+      status: response.status,
+      message,
+      data: response.data,
+    }
   } catch (error) {
     if (error.response) {
-      return { connected: true, status: error.response.status }
+      return {
+        connected: true,
+        status: error.response.status,
+        message: 'Server responded with an error.',
+        data: error.response.data,
+      }
     }
-    return { connected: false, status: null }
+
+    return {
+      connected: false,
+      status: null,
+      message: error.code === 'ECONNABORTED' ? 'Request timed out.' : 'Network unreachable.',
+      data: null,
+    }
   }
-}
-
-export async function loginUser(credentials) {
-  const response = await api.post('/api/auth/login', credentials)
-  return response.data
-}
-
-export async function registerUser(userData) {
-  const response = await api.post('/api/auth/register', userData)
-  return response.data
 }
 
 export default api
