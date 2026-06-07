@@ -1,81 +1,45 @@
-# ZeToD Frontend
+# ZETOD-Platform
+Open source Python skill assessment platform for African developers. Know exactly where you stand , Beginner, Intermediate, or Job Ready.
+# ZeToD — Zero To Deploy
 
-Production-ready landing page and auth flow for **ZeToD** (Zero To Deploy) — an open-source platform that evaluates real Python developer skills.
+An open source Python skill assessment platform that measures 
+a developer's accuracy, speed, and knowledge depth against an 
+expert benchmark — telling them exactly where they stand.
 
-## Stack
+## The Problem
+Thousands of African developers are learning Python but have 
+no honest way to know if they are job ready. Certificates mean 
+nothing. Self assessment is unreliable. ZeToD fixes that.
 
-- React + Vite (JavaScript)
-- Tailwind CSS v4
-- React Router DOM
-- Axios
-- Lucide React
+## What It Does
+- Assesses Python knowledge across Beginner, Intermediate, 
+  and Expert levels
+- Combines theoretical questions and practical coding challenges
+- Measures accuracy, speed, and knowledge depth
+- Assigns a clear level — Beginner, Intermediate, or Job Ready
+- Recommends specific topics to study if not yet job ready
 
-## Project structure
+## Tech Stack
+| Layer | Tool | Hosting |
+|-|-|-|
+| Frontend | React + Tailwind CSS | Vercel |
+| Backend | Node.js + Express | Render |
+| Database | PostgreSQL | Supabase |
+| Auth | Supabase Auth | Supabase |
+| Code Execution | Judge0 | Self-hosted |
+| Version Control | GitHub | github.com |
 
-```
-src/
-├── components/
-│   ├── auth/          LoginForm, RegisterForm
-│   ├── layout/        Navbar, Footer
-│   ├── sections/      Hero, Stats, Features, HowItWorks, Testimonials, FAQ
-│   └── ui/            Button, Card, Container, SectionTitle, Logo
-├── pages/             Home, Login, Register
-├── router/            AppRouter.jsx
-├── services/          api.js (Axios + backend)
-├── data/              Static content
-└── hooks/             useInView
-```
+## Status
+Week 01 — Problem definition and architecture complete.
+Active development begins Week 02.
 
-## Local development
+## Team
+ZeToD — Zero To Deploy
 
-```bash
-npm install
-npm run dev
-```
+## License
+MIT License — open source and free forever.
 
-Windows PowerShell (if `npm` is blocked):
+## Contributing
+We welcome contributions. See CONTRIBUTING.md for guidelines.
 
-```powershell
-npm.cmd run dev
-```
-
-## Backend
-
-Set the API URL in `.env`:
-
-```env
-VITE_API_URL=https://zetod-backend.onrender.com
-```
-
-Axios is configured in `src/services/api.js` with:
-
-- Health check: `GET /`
-- Login: `POST /api/auth/login`
-- Register: `POST /api/auth/register`
-- JWT token stored in `localStorage` as `zetod_token`
-
-**Start Assessment** routes users to `/login` first, then connects to backend authentication.
-
-## Routes
-
-| Path        | Page     |
-|-------------|----------|
-| `/`         | Landing  |
-| `/login`    | Sign in  |
-| `/register` | Sign up  |
-
-## Deploy (Vercel)
-
-1. Import the repo on [vercel.com](https://vercel.com)
-2. Root directory: `frontend` (monorepo) or `.` (standalone)
-3. Framework: **Vite**
-4. Build: `npm run build` → Output: `dist`
-5. Env var: `VITE_API_URL=https://zetod-backend.onrender.com`
-
-## Git
-
-```bash
-git add .
-git commit -m "Add frontend landing page"
-git push
-```
+# CI Test
