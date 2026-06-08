@@ -128,7 +128,7 @@ export default function RegisterForm() {
           role="status"
           className="rounded-lg border border-secondary/30 bg-secondary/10 px-4 py-3 text-sm text-secondary"
         >
-          Compte créé ! Redirection vers la connexion…
+          Account created ! Redirecting to Login...
         </div>
       )}
 
@@ -137,7 +137,7 @@ export default function RegisterForm() {
       <AuthInput
         id="nom"
         name="nom"
-        label="Nom"
+        label="Last Name"
         type="text"
         autoComplete="family-name"
         value={form.nom}
@@ -150,7 +150,7 @@ export default function RegisterForm() {
       <AuthInput
         id="prenom"
         name="prenom"
-        label="Prénom"
+        label="First Name"
         type="text"
         autoComplete="given-name"
         value={form.prenom}
@@ -176,7 +176,7 @@ export default function RegisterForm() {
       <AuthInput
         id="password"
         name="password"
-        label="Mot de passe"
+        label="Password"
         type="password"
         autoComplete="new-password"
         value={form.password}
@@ -189,7 +189,7 @@ export default function RegisterForm() {
       <AuthInput
         id="confirmPassword"
         name="confirmPassword"
-        label="Confirmation de mot de passe"
+        label="Confirm Password"
         type="password"
         autoComplete="new-password"
         value={form.confirmPassword}
@@ -201,7 +201,7 @@ export default function RegisterForm() {
 
       <CountrySelect
         id="pays"
-        label="Pays"
+        label="Country"
         value={form.pays}
         onChange={handleChange}
         error={fieldErrors.pays}
@@ -211,7 +211,7 @@ export default function RegisterForm() {
       <AuthInput
         id="ville"
         name="ville"
-        label="Ville"
+        label="City"
         type="text"
         autoComplete="address-level2"
         value={form.ville}
@@ -224,12 +224,12 @@ export default function RegisterForm() {
       <AuthInput
         id="metier"
         name="metier"
-        label="Métier"
+        label="Profession"
         type="text"
         autoComplete="organization-title"
         value={form.metier}
         onChange={handleChange}
-        placeholder="Développeur, médecin, enseignant…"
+        placeholder="Developer, Doctor, Teacher..."
         error={fieldErrors.metier}
         disabled={isDisabled}
       />
@@ -241,7 +241,7 @@ export default function RegisterForm() {
         disabled={isDisabled}
       >
         {loading && <Spinner />}
-        {loading ? 'Création du compte…' : 'Créer un compte'}
+        {loading ? 'Creating account...' : 'Create Account'}
       </Button>
     </form>
   )
