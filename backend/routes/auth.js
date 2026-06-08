@@ -7,7 +7,7 @@ require('dotenv').config();
 // Register
 router.post('/register', async (req, res) => {
   try {
-      const { email, password } = req.body;
+      const { email, password, nom, prenom, pays, ville, metier } = req.body;
 
           if (!email || !password) {
                 return res.status(400).json({ error: 'Email and password required' });
@@ -17,7 +17,14 @@ router.post('/register', async (req, res) => {
                               return res.status(400).json({ error: 'Password must be at least 8 characters' });
                                   }
 
-                                      const { data, error } = await supabase.auth.signUp({ email, password });
+                                      const { data, error } = await supabase.auth.signUp({
+                                          email,
+                                            password,
+                                              options: {
+                                                  data: { nom, prenom, pays, ville, metier }
+                                                    }
+                                                    });
+                                      })
 
                                           if (error) {
                                                 return res.status(400).json({ error: error.message });
