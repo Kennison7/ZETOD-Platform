@@ -19,6 +19,11 @@ app.use(morgan('dev'));
 app.use(limiter);
 
 app.use('/api/auth', authLimiter, authRoutes);
+const authMiddleware = require('./middleware/auth');
+
+app.get('/api/protected-route', authMiddleware, (req, res) => {
+  res.status(200).json({ message: 'Access granted' });
+  });
 
 app.get('/', (req, res) => {
   res.json({ message: 'ZeToD API is live!', status: 'running' });
