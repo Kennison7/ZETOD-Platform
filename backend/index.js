@@ -1,3 +1,4 @@
+require("./instrument.js");
 
 const express = require('express');
 const cors = require('cors');
@@ -24,6 +25,10 @@ const authMiddleware = require('./middleware/auth');
 app.get('/api/protected-route', authMiddleware, (req, res) => {
   res.status(200).json({ message: 'Access granted' });
   });
+  app.get("/debug-sentry", function(req, res) {
+      throw new Error("My first Sentry error!");
+      });
+  })
 
 app.get('/', (req, res) => {
   res.json({ message: 'ZeToD API is live!', status: 'running' });
@@ -41,5 +46,7 @@ app.get('/', (req, res) => {
         app.listen(PORT, () => {
           console.log(`ZeToD server running on port ${PORT}`);
           });
+        const Sentry = require("@sentry/node");
+        Sentry.setupExpressErrorHandler(app);
 
           module.exports = app;
