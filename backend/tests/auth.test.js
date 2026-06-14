@@ -49,16 +49,16 @@ describe('Auth Endpoints - Week 3', () => {
   });
 
   // 6. Protected route without token → expect 401 (commented out until Kennison adds the route)
-  // test('GET /api/protected-route no token → 401', async () => {
-  //   const res = await request(app).get('/api/protected-route');
-  //   expect(res.statusCode).toBe(401);
-  // });
+   test('GET /api/protected-route no token → 401', async () => {
+     const res = await request(app).get('/api/protected-route');
+     expect(res.statusCode).toBe(401);
+   });
 
   // 7. Protected route with valid token → expect 200 (commented out until Kennison adds the route)
-  // test('GET /api/protected-route with token → 200', async () => {
-  //   const res = await request(app)
-  //     .get('/api/protected-route')
-  //     .set('Authorization', `Bearer ${validToken}`);
-  //   expect(res.statusCode).toBe(200);
-  // });
+   test('GET /api/protected-route with token → 200', async () => {
+     const res = await request(app)
+       .get('/api/protected-route')
+       .set('Authorization', `Bearer ${validToken}`);
+     expect(res.statusCode).toBe(200);
+   });
 });
