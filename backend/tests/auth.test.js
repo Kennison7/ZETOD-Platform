@@ -1,5 +1,5 @@
 const request = require('supertest');
-const app = require('../index'); // points to backend/index.js
+const app = require('../index.js'); // points to backend/index.js
 
 describe('Auth Endpoints - Week 3', () => {
   let testEmail = `test${Date.now()}@example.com`;

@@ -7,7 +7,6 @@ import Spinner from './Spinner'
 import ColdStartNotice from './ColdStartNotice'
 import { registerUser } from '../../services/authService'
 import { getApiErrorMessage } from '../../utils/errors'
-import useColdStartHint from '../../hooks/useColdStartHint'
 
 const INITIAL_FORM = {
   email: '',
@@ -27,8 +26,6 @@ export default function RegisterForm() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
-  const showColdStart = useColdStartHint(loading)
-
   const handleChange = (e) => {
     const { name, value } = e.target
     setForm((prev) => ({ ...prev, [name]: value }))
@@ -56,8 +53,8 @@ export default function RegisterForm() {
 
     if (!form.password) {
       errors.password = 'Le mot de passe est requis.'
-    } else if (form.password.length < 6) {
-      errors.password = 'Le mot de passe doit contenir au moins 6 caractères.'
+    } else if (form.password.length < 8) {
+      errors.password = 'Le mot de passe doit contenir au moins 8 caractères.'
     }
 
     if (!form.confirmPassword) {
@@ -128,16 +125,16 @@ export default function RegisterForm() {
           role="status"
           className="rounded-lg border border-secondary/30 bg-secondary/10 px-4 py-3 text-sm text-secondary"
         >
-          Compte créé ! Redirection vers la connexion…
+          Account created ! Redirecting to Login...
         </div>
       )}
 
-      <ColdStartNotice visible={showColdStart} />
+      <ColdStartNotice />
 
       <AuthInput
         id="nom"
         name="nom"
-        label="Nom"
+        label="Last Name"
         type="text"
         autoComplete="family-name"
         value={form.nom}
@@ -150,7 +147,7 @@ export default function RegisterForm() {
       <AuthInput
         id="prenom"
         name="prenom"
-        label="Prénom"
+        label="First Name"
         type="text"
         autoComplete="given-name"
         value={form.prenom}
@@ -176,7 +173,7 @@ export default function RegisterForm() {
       <AuthInput
         id="password"
         name="password"
-        label="Mot de passe"
+        label="Password"
         type="password"
         autoComplete="new-password"
         value={form.password}
@@ -189,7 +186,7 @@ export default function RegisterForm() {
       <AuthInput
         id="confirmPassword"
         name="confirmPassword"
-        label="Confirmation de mot de passe"
+        label="Confirm Password"
         type="password"
         autoComplete="new-password"
         value={form.confirmPassword}
@@ -201,7 +198,7 @@ export default function RegisterForm() {
 
       <CountrySelect
         id="pays"
-        label="Pays"
+        label="Country"
         value={form.pays}
         onChange={handleChange}
         error={fieldErrors.pays}
@@ -211,7 +208,7 @@ export default function RegisterForm() {
       <AuthInput
         id="ville"
         name="ville"
-        label="Ville"
+        label="City"
         type="text"
         autoComplete="address-level2"
         value={form.ville}
@@ -224,12 +221,12 @@ export default function RegisterForm() {
       <AuthInput
         id="metier"
         name="metier"
-        label="Métier"
+        label="Profession"
         type="text"
         autoComplete="organization-title"
         value={form.metier}
         onChange={handleChange}
-        placeholder="Développeur, médecin, enseignant…"
+        placeholder="Developer, Doctor, Teacher..."
         error={fieldErrors.metier}
         disabled={isDisabled}
       />
@@ -241,7 +238,7 @@ export default function RegisterForm() {
         disabled={isDisabled}
       >
         {loading && <Spinner />}
-        {loading ? 'Création du compte…' : 'Créer un compte'}
+        {loading ? 'Creating account...' : 'Create Account'}
       </Button>
     </form>
   )

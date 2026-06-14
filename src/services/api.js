@@ -20,14 +20,18 @@ api.interceptors.request.use((config) => {
 export async function checkBackendHealth() {
   try {
     const response = await api.get('/health')
+    const healthStatus = response.data?.status
     const message =
-      typeof response.data === 'string'
-        ? response.data
-        : response.data?.status || response.data?.message || 'OK'
+      healthStatus === 'healthy'
+        ? 'API is reachable and responding.'
+        : typeof response.data === 'string'
+          ? response.data
+          : response.data?.message || healthStatus || 'OK'
 
     return {
       connected: true,
       status: response.status,
+      healthStatus,
       message,
       data: response.data,
     }
