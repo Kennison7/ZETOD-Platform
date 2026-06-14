@@ -1,9 +1,13 @@
 const { createClient } = require('@supabase/supabase-js');
-require('dotenv').config();
+const ws = require('ws');
 
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseSecretKey = process.env.SUPABASE_SECRET_KEY;
 
-const supabase = createClient(supabaseUrl, supabaseSecretKey);
+const supabase = createClient(supabaseUrl, supabaseSecretKey, {
+  realtime: {
+    transport: ws
+  }
+});
 
 module.exports = supabase;

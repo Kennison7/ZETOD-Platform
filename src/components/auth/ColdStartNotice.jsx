@@ -1,10 +1,11 @@
-import { useEffect } from 'react'
-import { checkBackendHealth } from '../../services/api'
+import { useEffect } from "react";
 
-export default function ColdStartNotice() {
+export default function ColdStartNotice({ visible }) {
   useEffect(() => {
-    checkBackendHealth().catch(() => {})
-  }, [])
+    fetch(import.meta.env.VITE_API_URL || "https://zetod-backend.onrender.com/health", {
+      method: "GET",
+    }).catch(() => {});
+  }, []);
 
-  return null
+  return null;
 }
