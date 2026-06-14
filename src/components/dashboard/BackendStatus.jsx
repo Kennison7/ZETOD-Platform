@@ -92,7 +92,7 @@ export default function BackendStatus() {
           <div className="flex flex-wrap items-center gap-2 mb-1">
             <h3 className="font-heading text-sm font-semibold text-text flex items-center gap-2">
               <Wifi size={14} className="text-muted" />
-              API Status
+              Connection Status
             </h3>
             <span
               className={`px-2 py-0.5 rounded-full text-xs font-medium border ${config.badgeClass}`}
@@ -102,9 +102,9 @@ export default function BackendStatus() {
           </div>
           <p className="text-sm text-text font-medium">{config.label}</p>
           <p className="text-xs text-muted mt-1">{config.description}</p>
-          {healthData?.status && (
+          {healthData?.healthStatus && (
             <p className="text-xs text-muted/70 mt-2 font-mono">
-              GET /health → HTTP {healthData.status}
+              GET /health → {healthData.healthStatus} (HTTP {healthData.status})
             </p>
           )}
         </div>

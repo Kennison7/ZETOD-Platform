@@ -7,7 +7,6 @@ import Spinner from './Spinner'
 import ColdStartNotice from './ColdStartNotice'
 import { registerUser } from '../../services/authService'
 import { getApiErrorMessage } from '../../utils/errors'
-import useColdStartHint from '../../hooks/useColdStartHint'
 
 const INITIAL_FORM = {
   email: '',
@@ -27,8 +26,6 @@ export default function RegisterForm() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
-  const showColdStart = useColdStartHint(loading)
-
   const handleChange = (e) => {
     const { name, value } = e.target
     setForm((prev) => ({ ...prev, [name]: value }))
@@ -56,8 +53,8 @@ export default function RegisterForm() {
 
     if (!form.password) {
       errors.password = 'Le mot de passe est requis.'
-    } else if (form.password.length < 6) {
-      errors.password = 'Le mot de passe doit contenir au moins 6 caractères.'
+    } else if (form.password.length < 8) {
+      errors.password = 'Le mot de passe doit contenir au moins 8 caractères.'
     }
 
     if (!form.confirmPassword) {
@@ -132,7 +129,7 @@ export default function RegisterForm() {
         </div>
       )}
 
-      <ColdStartNotice visible={showColdStart} />
+      <ColdStartNotice />
 
       <AuthInput
         id="nom"
