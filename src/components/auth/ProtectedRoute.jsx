@@ -7,12 +7,17 @@ export default function ProtectedRoute({ children }) {
   const [allowed, setAllowed] = useState(false)
 
   useEffect(() => {
-    const check = async () => {
-      const { data: { session } } = await supabase.auth.getSession()
+    supabase.auth.getSession().then(({ data: { session } }) => {
       setAllowed(!!session)
       setChecking(false)
-    }
-    check()
+    })
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setAllowed(!!session)
+      setChecking(false)
+    })
+
+    return () => subscription.unsubscribe()
   }, [])
 
   if (checking) return null
