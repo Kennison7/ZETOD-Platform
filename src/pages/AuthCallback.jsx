@@ -6,33 +6,18 @@ export default function AuthCallback() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    console.log("AuthCallback loaded:", window.location.href)
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      console.log("Auth event:", event, "Session:", session)
-      if (event === 'SIGNED_IN' && session) {
-        subscription.unsubscribe()
-        navigate('/dashboard', { replace: true })
-      } else if (event === 'SIGNED_OUT') {
-        subscription.unsubscribe()
-        navigate('/login', { replace: true })
-      }
-    })
-
-    // Fallback after 5 seconds
-    const timeout = setTimeout(async () => {
-      const { data: { session } } = await supabase.auth.getSession()
+    supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) {
         navigate('/dashboard', { replace: true })
       } else {
-        navigate('/login', { replace: true })
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+          if (event === 'SIGNED_IN' && session) {
+            subscription.unsubscribe()
+            navigate('/dashboard', { replace: true })
+          }
+        })
       }
-    }, 5000)
-
-    return () => {
-      subscription.unsubscribe()
-      clearTimeout(timeout)
-    }
+    })
   }, [navigate])
 
   return (
