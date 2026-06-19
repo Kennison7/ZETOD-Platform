@@ -7,16 +7,27 @@ export default function AuthCallback() {
   const [status, setStatus] = useState('Starting...')
 
   useEffect(() => {
-    setStatus('Hash: ' + window.location.hash.substring(0, 50))
-    
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      setStatus('Event: ' + event + ' Session: ' + (session ? 'YES' : 'NO'))
-      if (session) {
-        setTimeout(() => navigate('/dashboard', { replace: true }), 1000)
-      }
-    })
+    const hash = window.location.hash
+    setStatus('Hash found: ' + (hash.includes('access_token') ? 'YES' : 'NO'))
 
-    return () => subscription.unsubscribe()
+    if (hash && hash.includes('access_token')) {
+      const params = new URLSearchParams(hash.substring(1))
+      const access_token = params.get('access_token')
+      const refresh_token = params.get('refresh_token')
+
+      setStatus('Setting session...')
+      supabase.auth.setSession({ access_token, refresh_token })
+        .then(({ data, error }) => {
+          setStatus('Result: ' + (error ? error.message : 'OK session=' + !!data.session))
+          if (data?.session) {
+            navigate('/dashboard', { replace: true })
+          } else {
+            navigate('/login', { replace: true })
+          }
+        })
+    } else {
+      navigate('/login', { replace: true })
+    }
   }, [navigate])
 
   return (
