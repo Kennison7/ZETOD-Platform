@@ -17,9 +17,17 @@ import BackendStatus from '../components/dashboard/BackendStatus'
 import StatsCard from '../components/dashboard/StatsCard'
 import ActivityCard from '../components/dashboard/ActivityCard'
 import { logout } from '../utils/auth'
+import { supabase } from '../lib/supabase'
 
 export default function Dashboard() {
   const navigate = useNavigate()
+  const [user, setUser] = useState(null)
+
+  useState(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user)
+    })
+  }, [])
   const [loggingOut, setLoggingOut] = useState(false)
 
   const handleLogout = () => {
@@ -45,7 +53,7 @@ export default function Dashboard() {
                   Developer Dashboard
                 </p>
                 <h1 className="font-heading text-3xl lg:text-4xl font-bold text-text">
-                  Welcome back, Developer
+                  Welcome back, {user?.user_metadata?.full_name?.split(" ")[0] || "Developer"}
                 </h1>
                 <p className="text-muted mt-2 max-w-xl">
                   Track your Python skill benchmark, upcoming assessments, and performance
