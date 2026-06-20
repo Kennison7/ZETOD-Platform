@@ -28,9 +28,6 @@ app.get('/api/protected-route', authMiddlewareLoaded, (req, res) => {
   res.status(200).json({ message: 'Access granted' });
 });
 
-app.get('/debug-sentry', (req, res) => {
-  throw new Error('My first Sentry error!');
-});
 
 app.get('/', (req, res) => {
   res.json({ message: 'ZeToD API is live!', status: 'running' });
