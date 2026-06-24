@@ -3,6 +3,7 @@ import Home from '../pages/Home'
 import Login from '../pages/Login'
 import Register from '../pages/Register'
 import Dashboard from '../pages/Dashboard'
+import Assessment from '../pages/Assessment'
 import AuthCallback from '../pages/AuthCallback'
 import ProtectedRoute from '../components/auth/ProtectedRoute'
 
@@ -22,7 +23,8 @@ export default function AppRouter() {
             </ProtectedRoute>
           }
         />
-      </Routes>
+        <Route path="/assessment" element={<ProtectedRoute><Assessment /></ProtectedRoute>} />
+    </Routes>
     </BrowserRouter>
   )
 }

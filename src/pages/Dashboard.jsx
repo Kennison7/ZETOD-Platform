@@ -154,6 +154,7 @@ export default function Dashboard() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               <ActivityCard
                 title="Python Fundamentals"
+                onClick={() => navigate("/assessment")}
                 description="Core syntax, data types, control flow, and functions — the foundation every developer needs."
                 status="Soon"
                 statusVariant="pending"
