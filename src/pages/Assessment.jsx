@@ -11,7 +11,7 @@ const questions = [
   { id: 3, topic: "Fundamentals", question: "What is the output of: print(type(3.14))?", options: ["<class 'int'>", "<class 'double'>", "<class 'float'>", "<class 'decimal'>"], answer: 2 },
   { id: 4, topic: "Fundamentals", question: "Which operator is used for exponentiation in Python?", options: ["^", "**", "exp()", "^^"], answer: 1 },
   { id: 5, topic: "Fundamentals", question: "What is the output of: print(10 // 3)?", options: ["3.33", "3", "4", "1"], answer: 1 },
-  { id: 6, topic: "Fundamentals", question: "Which of the following correctly declares a multi-line string in Python?", options: ["/* string */", "# string #", '"""string"""', "//string//"], answer: 2 },
+  { id: 6, topic: "Fundamentals", question: "Which of the following correctly declares a multi-line string in Python?", options: ["/* string */", "# string #", 'triple-quoted string', "//string//"], answer: 2 },
   { id: 7, topic: "Fundamentals", question: "What does the modulo operator (%) return?", options: ["The quotient of division", "The remainder of division", "The percentage value", "The absolute value"], answer: 1 },
   { id: 8, topic: "Fundamentals", question: "How do you insert a comment in Python?", options: ["// This is a comment", "/* This is a comment */", "# This is a comment", "-- This is a comment"], answer: 2 },
   { id: 9, topic: "Fundamentals", question: "What is the output of: print(bool(0))?", options: ["True", "False", "0", "None"], answer: 1 },
