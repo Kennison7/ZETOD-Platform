@@ -159,8 +159,8 @@ export default function Dashboard() {
                 statusVariant="active"
                 status="Live"
                 description="Core syntax, data types, control flow, and functions — the foundation every developer needs."
-                status="Soon"
-                statusVariant="pending"
+                status="Live"
+                statusVariant="Active"
               />
               <ActivityCard
                 title="Data Structures"
