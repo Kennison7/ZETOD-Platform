@@ -22,10 +22,24 @@ import { supabase } from '../lib/supabase'
 export default function Dashboard() {
   const navigate = useNavigate()
   const [user, setUser] = useState(null)
+  const [stats, setStats] = useState({ accuracy: null, assessments: 0, badge: 'Unranked' })
 
   useState(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user)
+      if (session?.user) {
+        supabase
+          .from('assessment_results')
+          .select('score, total, percent')
+          .eq('user_id', session.user.id)
+          .then(({ data }) => {
+            if (data && data.length > 0) {
+              const avg = Math.round(data.reduce((a, b) => a + b.percent, 0) / data.length)
+              const badge = avg >= 90 ? 'Expert' : avg >= 70 ? 'Proficient' : avg >= 50 ? 'Developing' : 'Beginner'
+              setStats({ accuracy: avg, assessments: data.length, badge })
+            }
+          })
+      }
     })
   }, [])
   const [loggingOut, setLoggingOut] = useState(false)
@@ -138,7 +152,7 @@ export default function Dashboard() {
               <StatsCard
                 icon={Award}
                 label="Tier Badge"
-                value="Unranked"
+                value={stats.badge}
                 subtext="Earn your first badge"
                 accent="primary"
               />
