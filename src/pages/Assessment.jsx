@@ -5,7 +5,16 @@ import Container from '../components/ui/Container'
 import Card from '../components/ui/Card'
 import { supabase } from '../lib/supabase'
 
-const questions = [
+function shuffleArray(array) {
+  const arr = [...array]
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j]], arr[i]]
+  }
+  return arr
+}
+
+const allQuestions = [
   { id: 1, topic: "Fundamentals", question: "What is the correct way to define a function in Python?", options: ["function myFunc():", "def myFunc():", "define myFunc():", "func myFunc():"], answer: 1 },
     { id: 2, topic: "Fundamentals", question: "Which of the following is NOT a valid Python data type?", options: ["int", "float", "char", "bool"], answer: 2 },
       { id: 3, topic: "Control Flow", question: "Which keyword is used to skip the current iteration in a loop?", options: ["break", "pass", "continue", "skip"], answer: 2 },
@@ -17,6 +26,7 @@ const questions = [
                   { id: 9, topic: "OOP", question: "What is the purpose of __init__ in a Python class?", options: ["Destroys the object", "Initialises object attributes", "Called every time a method runs", "Defines class constants"], answer: 1 },
                     { id: 10, topic: "OOP", question: "What does super() do in Python?", options: ["Creates a parent instance", "Deletes the parent class", "Calls a method from the parent class", "Checks if a class has a parent"], answer: 2 },
                     ]
+                    const questions = shuffleArray(allQuestions)
 
                     const topicRecommendations = {
                       "Fundamentals": { what: "Python syntax, data types, variables, operators", resource: "Python.org Tutorial Sections 3 and 4", url: "https://docs.python.org/3/tutorial/introduction.html" },
