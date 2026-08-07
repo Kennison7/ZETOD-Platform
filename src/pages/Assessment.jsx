@@ -26,7 +26,7 @@ const allQuestions = [
                   { id: 9, topic: "OOP", question: "What is the purpose of __init__ in a Python class?", options: ["Destroys the object", "Initialises object attributes", "Called every time a method runs", "Defines class constants"], answer: 1 },
                     { id: 10, topic: "OOP", question: "What does super() do in Python?", options: ["Creates a parent instance", "Deletes the parent class", "Calls a method from the parent class", "Checks if a class has a parent"], answer: 2 },
                     ]
-                    const questions = shuffleArray(allQuestions)
+                    
 
                     const topicRecommendations = {
                       "Fundamentals": { what: "Python syntax, data types, variables, operators", resource: "Python.org Tutorial Sections 3 and 4", url: "https://docs.python.org/3/tutorial/introduction.html" },
@@ -36,12 +36,13 @@ const allQuestions = [
                               "OOP": { what: "classes, __init__, self, inheritance, super()", resource: "Python.org Tutorial Section 9", url: "https://docs.python.org/3/tutorial/classes.html" },
                               }
 
-                              const questions = shuffleArray(allQuestions)
+                              
 
 const TOPICS = [...new Set(questions.map((q) => q.topic))]
 
                               export default function Assessment() {
                                 const navigate = useNavigate()
+  const [questions] = useState(() => shuffleArray(allQuestions))
                                   const [current, setCurrent] = useState(0)
                                     const [selected, setSelected] = useState({})
                                       const [submitted, setSubmitted] = useState(false)
