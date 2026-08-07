@@ -6,10 +6,14 @@ import Card from '../components/ui/Card'
 import { supabase } from '../lib/supabase'
 
 function shuffleArray(array) {
-  const arr = [...array]
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    const temp = arr[i]; arr[i] = arr[j]; arr[j] = temp
+  const arr = array.slice()
+  let i = arr.length
+  while (i > 0) {
+    const j = Math.floor(Math.random() * i)
+    i = i - 1
+    const temp = arr[i]
+    arr[i] = arr[j]
+    arr[j] = temp
   }
   return arr
 }
