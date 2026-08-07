@@ -36,7 +36,9 @@ const allQuestions = [
                               "OOP": { what: "classes, __init__, self, inheritance, super()", resource: "Python.org Tutorial Section 9", url: "https://docs.python.org/3/tutorial/classes.html" },
                               }
 
-                              const TOPICS = [...new Set(questions.map((q) => q.topic))]
+                              const questions = shuffleArray(allQuestions)
+
+const TOPICS = [...new Set(questions.map((q) => q.topic))]
 
                               export default function Assessment() {
                                 const navigate = useNavigate()
